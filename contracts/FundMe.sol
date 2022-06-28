@@ -3,6 +3,8 @@ pragma solidity ^0.8.0;
 
 import './PriceConverter.sol';
 
+error FundMe__NotOwner();
+
 contract FundMe {
     using PriceConverter for uint256;
 
@@ -12,6 +14,12 @@ contract FundMe {
     
     // multiplied by 1e18 to match converting to wei in eth
     uint128 public constant MINIMUN_USD = 50 * 10 ** 18;
+
+    modifier onlyOwner() {
+        // require(msg.sender == i_owner);
+        if (msg.sender != owner) revert FundMe__NotOwner();
+        _;
+    }
 
     constructor() {
         owner = msg.sender;
@@ -24,7 +32,7 @@ contract FundMe {
         funders.push(msg.sender);
     }
 
-    function withdraw() public payable {
+    function withdraw() public payable onlyOwner {
         for(uint256 i; i < funders.length; i++) {
             address funder = funders[i];
             addressToAmountFunded[funder] = 0;
