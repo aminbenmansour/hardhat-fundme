@@ -38,4 +38,15 @@ module.exports = {
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
   },
+  namedAccounts: {
+    deployer: {
+      default: 0,
+      // specifying order for defined chains
+      // 1st on rinkeby
+      // 4: 1
+    },
+    user: {
+      default: 1
+    }
+  }  
 };
