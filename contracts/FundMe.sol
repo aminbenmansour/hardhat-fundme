@@ -8,6 +8,7 @@ contract FundMe {
 
     address private owner;
     address[] public funders;
+    mapping (address => uint256) public addressToAmountFunded;
     
     // multiplied by 1e18 to match converting to wei in eth
     uint128 public constant MINIMUN_USD = 50 * 10 ** 18;
@@ -17,7 +18,10 @@ contract FundMe {
     }
 
     function fund() public payable {
-        
+        require(msg.value.getConversionRate() >= MINIMUN_USD, "ETH amount sufficient, You need to spend more!");
+
+        addressToAmountFunded[msg.sender] += msg.value; 
+        funders.push(msg.sender);
     }
 
     function withdraw() public payable {
