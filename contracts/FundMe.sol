@@ -1,6 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import './PriceConverter.sol';
 
 error FundMe__NotOwner();
@@ -12,6 +13,7 @@ contract FundMe {
     address[] public funders;
     mapping (address => uint256) public addressToAmountFunded;
     
+    AggregatorV3Interface public priceFeed;
     // multiplied by 1e18 to match converting to wei in eth
     uint128 public constant MINIMUN_USD = 50 * 10 ** 18;
 
@@ -21,12 +23,13 @@ contract FundMe {
         _;
     }
 
-    constructor() {
+    constructor(address _priceFeed) {
         owner = msg.sender;
+        priceFeed = AggregatorV3Interface(_priceFeed);
     }
 
     function fund() public payable {
-        require(msg.value.getConversionRate() >= MINIMUN_USD, "ETH amount unsufficient, You need to spend more!");
+        require(msg.value.getConversionRate(priceFeed) >= MINIMUN_USD, "ETH amount unsufficient, You need to spend more!");
 
         addressToAmountFunded[msg.sender] += msg.value; 
         funders.push(msg.sender);
