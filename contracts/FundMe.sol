@@ -25,7 +25,12 @@ contract FundMe {
     }
 
     function withdraw() public payable {
-        
+        for(uint256 i; i < funders.length; i++) {
+            address funder = funders[i];
+            addressToAmountFunded[funder] = 0;
+        }
+
+        funders = new address[](0);
     }
 
 
