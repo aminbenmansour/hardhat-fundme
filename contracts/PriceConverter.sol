@@ -18,4 +18,9 @@ library PriceConverter {
         // ETH/USD rate in 18 digit
         return uint256(answer * 1e10);
     }
+
+    function getConvertionRate(uint256 ETH_amount) internal view returns(uint256) {
+        // the actual ETH/USD conversion rate, after adjusting the extra 0s.
+        return (getPrice() * ETH_amount) / 1e18;
+    }
 }
