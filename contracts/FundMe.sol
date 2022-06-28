@@ -1,10 +1,15 @@
-//SPDX-License-Identifier: Unlicense
+//SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import './PriceConverter.sol';
 
-contract Greeter {
+contract FundMe {
+    using PriceConverter for uint256;
+
     address[] public funders;
-    uint128 public constant MINIMUN_USD = 50 * 10 ** 18; // multiplied by 1e18 to match converting to wei in eth
+    
+    // multiplied by 1e18 to match converting to wei in eth
+    uint128 public constant MINIMUN_USD = 50 * 10 ** 18;
 
     constructor() {
     }
