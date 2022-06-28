@@ -18,7 +18,7 @@ contract FundMe {
     }
 
     function fund() public payable {
-        require(msg.value.getConversionRate() >= MINIMUN_USD, "ETH amount sufficient, You need to spend more!");
+        require(msg.value.getConversionRate() >= MINIMUN_USD, "ETH amount unsufficient, You need to spend more!");
 
         addressToAmountFunded[msg.sender] += msg.value; 
         funders.push(msg.sender);
@@ -42,6 +42,17 @@ contract FundMe {
         require(callSuccess, "Call failed");
     }
 
+    // Explainer from: https://solidity-by-example.org/fallback/
+    // Ether is sent to contract
+    //      is msg.data empty?
+    //          /   \ 
+    //         yes  no
+    //         /     \
+    //    receive()?  fallback() 
+    //     /   \ 
+    //   yes   no
+    //  /        \
+    //receive()  fallback()
 
     fallback() external payable {
         fund();
