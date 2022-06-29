@@ -12,7 +12,8 @@ module.exports =async ({ getNamedAccounts, deployments }) => {
     let ethUsdPriceFeedAddress
 
     if (developmentChains.includes(network.name)) {
-        ethUsdPriceFeedAddress = await deployments.get("MockV3Aggregateor")
+        let ethUsdAggregator = await deployments.get("MockV3Aggregator")
+        ethUsdPriceFeedAddress = ethUsdAggregator.address
     } else {
         ethUsdPriceFeedAddress = networkConfig[chainId]["ethUsdPriceFeed"]
     }
@@ -20,10 +21,11 @@ module.exports =async ({ getNamedAccounts, deployments }) => {
     const fundMe = await deploy("FundMe", {
         from: deployer,
         args: [
-            // price feed address
             ethUsdPriceFeedAddress
         ],
-        log: true
+        log: true,
+        // we need to wait if on a live network so we can verify properly
+        waitConfirmations: network.config.blockConfirmations || 1,
     })
 
     log("--------------------------------------------")
