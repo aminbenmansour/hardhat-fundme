@@ -1,4 +1,5 @@
 const { version } = require("chai");
+const { network } = require("hardhat");
 
 require("dotenv").config();
 
@@ -39,6 +40,8 @@ module.exports = {
       url: process.env.RINKEBY_URL || "",
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+      chainId: 4,
+      blockConfirmations: 5,
     },
   },
   gasReporter: {
