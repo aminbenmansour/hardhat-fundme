@@ -44,8 +44,6 @@ contract FundMe {
 
     /**
      * @notice This function funds this contract
-     * @param null
-     * @return void
      */
 
     function fund() public payable {
