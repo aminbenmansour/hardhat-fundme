@@ -1,5 +1,4 @@
 const { version } = require("chai");
-const { network } = require("hardhat");
 
 require("dotenv").config();
 
