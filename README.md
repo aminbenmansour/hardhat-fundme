@@ -9,3 +9,9 @@ yarn hardhat deploy --network rinkeby
 ```
 yarn hardhat deploy --tags mocks
 ```
+
+* run a cluster of nodes and deploying all contracts at once
+
+```
+yarn hardhat node
+```
