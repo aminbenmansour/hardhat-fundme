@@ -42,4 +42,21 @@ describe("FundMe", async () => {
             assert.equal(response.toString(), sendValue.toString())
         })
     })
+
+    describe("withdraw", async () => {
+        beforeEach(async () => {
+            await fundMe.fund({value: ethers.utils.parseEther("1")})
+        })
+
+        it("withdraws ETH from a single funder", async () => {
+            const startingFundMeBalance = await fundMe.provider.getBalance(fundMe.address)
+            const startingDeployerBalance = await fundMe.provider.getBalance(deployer)
+
+            const endingFundMeBalance = await fundMe.provider.getBalance(fundMe.address)
+            const endingDeployerBalance = await fundMe.provider.getBalance(deployer)
+            
+            assert.equal(endingFundMeBalance, 0)
+            // assert.equal(endingDeployerBalance, startingDeployerBalance.add(startingFundMeBalance))
+        })
+    })
 })
