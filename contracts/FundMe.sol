@@ -6,10 +6,16 @@ import './PriceConverter.sol';
 
 error FundMe__NotOwner();
 
+/** @title A contract for crowd funding
+ *  @author Amine Ben Mansour
+ *  @notice This contract is to demo a sample funding contract
+ *  @dev This implements price feeds as our library
+ */
+
 contract FundMe {
     using PriceConverter for uint256;
 
-    address private owner;
+    address private immutable owner;
     address[] public funders;
     mapping (address => uint256) public addressToAmountFunded;
     
@@ -27,6 +33,20 @@ contract FundMe {
         owner = msg.sender;
         priceFeed = AggregatorV3Interface(_priceFeed);
     }
+
+    receive() external payable {
+        fund();
+    }
+
+    fallback() external payable {
+        fund();
+    }
+
+    /**
+     * @notice This function funds this contract
+     * @param null
+     * @return void
+     */
 
     function fund() public payable {
         require(msg.value.getConversionRate(priceFeed) >= MINIMUN_USD, "ETH amount unsufficient, You need to spend more!");
@@ -65,11 +85,4 @@ contract FundMe {
     //  /        \
     //receive()  fallback()
 
-    fallback() external payable {
-        fund();
-    }
-
-    receive() external payable {
-        fund();
-    }
 }
