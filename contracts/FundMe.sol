@@ -16,10 +16,10 @@ contract FundMe {
     using PriceConverter for uint256;
 
     address private immutable owner;
-    address[] public funders;
-    mapping (address => uint256) public addressToAmountFunded;
+    address[] private funders;
+    mapping (address => uint256) private addressToAmountFunded;
     
-    AggregatorV3Interface public priceFeed;
+    AggregatorV3Interface private priceFeed;
     // multiplied by 1e18 to match converting to wei in eth
     uint128 public constant MINIMUN_USD = 50 * 10 ** 18;
 
@@ -83,4 +83,20 @@ contract FundMe {
     //  /        \
     //receive()  fallback()
 
+
+    function getOwner() public view returns (address) {
+        return owner;
+    }
+
+    function getFunder(uint256 index) public view returns (address) {
+        return funders[index];
+    }
+
+    function getAddressToAmountFunded(address funder) public view returns (uint256) {
+        return addressToAmountFunded[funder];
+    }
+
+    function getPriceFeed() public view returns (AggregatorV3Interface) {
+        return priceFeed;
+    }
 }
