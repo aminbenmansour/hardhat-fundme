@@ -54,8 +54,10 @@ contract FundMe {
     }
 
     function withdraw() public payable onlyOwner {
-        for(uint256 i; i < funders.length; i++) {
-            address funder = funders[i];
+        address[] memory _funders = funders;
+
+        for(uint256 i; i < _funders.length; i++) {
+            address funder = _funders[i];
             addressToAmountFunded[funder] = 0;
         }
 
