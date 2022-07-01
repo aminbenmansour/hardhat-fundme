@@ -5,6 +5,7 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import './PriceConverter.sol';
 
 error FundMe__NotOwner();
+error FundMe__InsufficientETH();
 
 /** @title A contract for crowd funding
  *  @author Amine Ben Mansour
@@ -47,7 +48,8 @@ contract FundMe {
      */
 
     function fund() public payable {
-        require(msg.value.getConversionRate(priceFeed) >= MINIMUN_USD, "ETH amount unsufficient, You need to spend more!");
+        // require(msg.value.getConversionRate(priceFeed) >= MINIMUN_USD, "ETH amount unsufficient, You need to spend more!");
+        if (msg.value.getConversionRate(priceFeed) < MINIMUN_USD) revert FundMe__InsufficientETH();
 
         addressToAmountFunded[msg.sender] += msg.value; 
         funders.push(msg.sender);
