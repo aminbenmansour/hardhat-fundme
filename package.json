@@ -1,5 +1,7 @@
 {
-  "name": "hardhat-project",
+  "name": "hardhat-fundme",
+  "author": {"name":"Amine BEN MANSOUR"},
+  "version": "1.0.0",
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "npm:npm:hardhat-deploy-ethers",
     "@nomiclabs/hardhat-etherscan": "^3.1.0",
